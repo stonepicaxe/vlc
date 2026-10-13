@@ -112,6 +112,19 @@ jobs:
           echo "/opt/homebrew/opt/bison/bin" >> $GITHUB_PATH
           echo "/opt/homebrew/opt/gnu-tar/libexec/gnubin" >> $GITHUB_PATH
 
+      - name: Setup SDK compatibility
+        run: |
+          ACTUAL_SDK="$(xcrun --sdk macosx --show-sdk-path)"
+          echo "Actual SDK: $ACTUAL_SDK"
+          SDK_DIR="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs"
+          sudo mkdir -p "$SDK_DIR"
+          sudo ln -sfn "$ACTUAL_SDK" "$SDK_DIR/MacOSX26.2.sdk"
+          sudo ln -sfn "$ACTUAL_SDK" "$SDK_DIR/MacOSX.sdk"
+          for v in 13 14 15 16 26.2; do
+            sudo ln -sfn "$ACTUAL_SDK" "$SDK_DIR/MacOSX${v}.sdk" 2>/dev/null || true
+          done
+          ls -la "$SDK_DIR"
+
       - name: Resolve Prebuilt Contribs
         run: |
           export VLC_FORCE_KERNELVERSION=19
