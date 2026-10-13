@@ -107,8 +107,7 @@ void ConfigModel::save()
 
 void ConfigModel::reset()
 {
-    if (m_intf)
-        config_ResetAll(m_intf);
+    config_ResetAll();
 }
 
 QVariantList ConfigModel::getChoices(const QString &key) const
