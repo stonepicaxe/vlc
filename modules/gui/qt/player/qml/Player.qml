@@ -1360,12 +1360,70 @@ FocusScope {
     }
 
     function toggleSubtitleDrawer() {
+        if (!subtitleDrawer.visible) {
+            audioDrawer.visible = false
+            videoDrawer.visible = false
+        }
         subtitleDrawer.visible = !subtitleDrawer.visible
         rootPlayer.lockUnlockAutoHide(subtitleDrawer.visible)
     }
 
+    function toggleAudioDrawer() {
+        if (!audioDrawer.visible) {
+            subtitleDrawer.visible = false
+            videoDrawer.visible = false
+        }
+        audioDrawer.visible = !audioDrawer.visible
+        rootPlayer.lockUnlockAutoHide(audioDrawer.visible)
+    }
+
+    function toggleVideoDrawer() {
+        if (!videoDrawer.visible) {
+            subtitleDrawer.visible = false
+            audioDrawer.visible = false
+        }
+        videoDrawer.visible = !videoDrawer.visible
+        rootPlayer.lockUnlockAutoHide(videoDrawer.visible)
+    }
+
     SubtitleDrawer {
         id: subtitleDrawer
+
+        anchors {
+            bottom: controlBar.top
+            bottomMargin: VLCStyle.margin_normal
+            horizontalCenter: controlBar.horizontalCenter
+        }
+
+        visible: false
+        z: controlBar.z + 1
+
+        onCloseRequested: {
+            visible = false
+            rootPlayer.lockUnlockAutoHide(false)
+        }
+    }
+
+    AudioDrawer {
+        id: audioDrawer
+
+        anchors {
+            bottom: controlBar.top
+            bottomMargin: VLCStyle.margin_normal
+            horizontalCenter: controlBar.horizontalCenter
+        }
+
+        visible: false
+        z: controlBar.z + 1
+
+        onCloseRequested: {
+            visible = false
+            rootPlayer.lockUnlockAutoHide(false)
+        }
+    }
+
+    VideoDrawer {
+        id: videoDrawer
 
         anchors {
             bottom: controlBar.top

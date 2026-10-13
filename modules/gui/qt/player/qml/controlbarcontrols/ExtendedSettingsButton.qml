@@ -32,5 +32,11 @@ Widgets.IconToolButton {
 
     AccessibleCompat.id: "extendedSettingsButton"
 
-    onClicked: DialogsProvider.extendedDialog()
+    onClicked: {
+        if ((typeof rootPlayer !== 'undefined') && rootPlayer && rootPlayer.toggleAudioDrawer) {
+            rootPlayer.toggleAudioDrawer()
+        } else {
+            DialogsProvider.extendedDialog()
+        }
+    }
 }

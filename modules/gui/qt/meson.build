@@ -755,6 +755,8 @@ qml_modules += {
        'player/qml/ControlRepeater.qml',
        'player/qml/NavigationBox.qml',
        'player/qml/drawers/SubtitleDrawer.qml',
+       'player/qml/drawers/AudioDrawer.qml',
+       'player/qml/drawers/VideoDrawer.qml',
    ),
    'singletons' : files(
        'player/qml/PlayerControlbarControls.qml',
