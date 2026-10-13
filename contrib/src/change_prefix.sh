@@ -81,6 +81,8 @@ process() {
         fi
         sed -i.orig -e "s,$old_prefix,$new_prefix,g" $file
         rm -f $file.orig
+        sed -i.orig -E -e 's|-isysroot /Applications/Xcode[^ ]*||g' $file
+        rm -f $file.orig
     done
 }
 

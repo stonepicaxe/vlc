@@ -145,9 +145,8 @@ jobs:
           echo "Actual SDK: $ACTUAL_SDK"
           SDK_DIR="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs"
           sudo mkdir -p "$SDK_DIR"
-          sudo ln -sfn "$ACTUAL_SDK" "$SDK_DIR/MacOSX26.2.sdk"
           sudo ln -sfn "$ACTUAL_SDK" "$SDK_DIR/MacOSX.sdk"
-          for v in 13 14 15 16 26.2; do
+          for v in 10.13 10.14 10.15 11 11.0 11.1 11.2 11.3 12 12.0 12.1 12.2 12.3 13 13.0 13.1 13.2 13.3 14 14.0 14.1 14.2 14.3 14.4 15 15.0 16 26.2; do
             sudo ln -sfn "$ACTUAL_SDK" "$SDK_DIR/MacOSX${v}.sdk" 2>/dev/null || true
           done
           ls -la "$SDK_DIR"
