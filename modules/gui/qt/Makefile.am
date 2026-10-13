@@ -432,6 +432,7 @@ nodist_libqt_plugin_la_SOURCES = \
 	dialogs/plugins/plugins.moc.cpp \
 	dialogs/podcast/podcast_configuration.moc.cpp \
 	dialogs/preferences/complete_preferences.moc.cpp \
+	dialogs/preferences/config_model.moc.cpp \
 	dialogs/preferences/expert_model.moc.cpp \
 	dialogs/preferences/expert_view.moc.cpp \
 	dialogs/preferences/preferences.moc.cpp \
