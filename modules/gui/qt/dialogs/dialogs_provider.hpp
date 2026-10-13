@@ -246,6 +246,8 @@ public slots:
     void openUrlDialog();
     void openNetDialog();
     void openCaptureDialog();
+    void showNewPlaylist();
+    void showCheatSheet();
 
     void PLOpenDir();
     void PLAppendDir();
@@ -289,6 +291,10 @@ signals:
     void releaseMouseEvents();
     void showToolbarEditorDialog();
     void showPrefsDialog();
+    void showFirstRunDialog();
+    void showNewPlaylistDialog();
+    void showOpenNetworkDialog();
+    void showShortcutsCheatSheetDialog();
 
     //visiblity signal
     void openDialogVisibleChanged();

@@ -294,9 +294,7 @@ void DialogsProvider::prefsDialog()
 
 void DialogsProvider::firstRunDialog()
 {
-    ensureDialog(m_firstRunDialog);
-    QVLCDialog::setWindowTransientParent(m_firstRunDialog.get(), nullptr, p_intf);
-    m_firstRunDialog->show();
+    emit showFirstRunDialog();
 }
 
 void DialogsProvider::extendedDialog()
@@ -637,11 +635,19 @@ void DialogsProvider::openDiscDialog()
 }
 void DialogsProvider::openNetDialog()
 {
-    openDialog( OpenDialog::OPEN_NETWORK_TAB );
+    emit showOpenNetworkDialog();
 }
 void DialogsProvider::openCaptureDialog()
 {
     openDialog( OpenDialog::OPEN_CAPTURE_TAB );
+}
+void DialogsProvider::showNewPlaylist()
+{
+    emit showNewPlaylistDialog();
+}
+void DialogsProvider::showCheatSheet()
+{
+    emit showShortcutsCheatSheetDialog();
 }
 
 /* Same as the open one, but force the enqueue */

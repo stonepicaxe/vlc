@@ -633,4 +633,104 @@ Item {
             item.requestActivate()
         }
     }
+
+    Loader {
+        id: onboardingWizardLoader
+        active: false
+        source: "qrc:///qt/qml/VLC/Dialogs/OnboardingWizard.qml"
+
+        Connections {
+            target: DialogsProvider
+
+            function onShowFirstRunDialog() {
+                onboardingWizardLoader.active = true
+                if (onboardingWizardLoader.item) {
+                    onboardingWizardLoader.item.show()
+                    onboardingWizardLoader.item.raise()
+                    onboardingWizardLoader.item.requestActivate()
+                }
+            }
+        }
+
+        onLoaded: {
+            item.show()
+            item.raise()
+            item.requestActivate()
+        }
+    }
+
+    Loader {
+        id: newPlaylistDialogLoader
+        active: false
+        source: "qrc:///qt/qml/VLC/Dialogs/NewPlaylistDialog.qml"
+
+        Connections {
+            target: DialogsProvider
+
+            function onShowNewPlaylistDialog() {
+                newPlaylistDialogLoader.active = true
+                if (newPlaylistDialogLoader.item) {
+                    newPlaylistDialogLoader.item.show()
+                    newPlaylistDialogLoader.item.raise()
+                    newPlaylistDialogLoader.item.requestActivate()
+                }
+            }
+        }
+
+        onLoaded: {
+            item.show()
+            item.raise()
+            item.requestActivate()
+        }
+    }
+
+    Loader {
+        id: openNetworkDialogLoader
+        active: false
+        source: "qrc:///qt/qml/VLC/Dialogs/OpenNetworkDialog.qml"
+
+        Connections {
+            target: DialogsProvider
+
+            function onShowOpenNetworkDialog() {
+                openNetworkDialogLoader.active = true
+                if (openNetworkDialogLoader.item) {
+                    openNetworkDialogLoader.item.show()
+                    openNetworkDialogLoader.item.raise()
+                    openNetworkDialogLoader.item.requestActivate()
+                }
+            }
+        }
+
+        onLoaded: {
+            item.show()
+            item.raise()
+            item.requestActivate()
+        }
+    }
+
+    Loader {
+        id: shortcutsCheatSheetDialogLoader
+        active: false
+        source: "qrc:///qt/qml/VLC/Dialogs/ShortcutsCheatSheetDialog.qml"
+
+        Connections {
+            target: DialogsProvider
+
+            function onShowShortcutsCheatSheetDialog() {
+                shortcutsCheatSheetDialogLoader.active = true
+                if (shortcutsCheatSheetDialogLoader.item) {
+                    shortcutsCheatSheetDialogLoader.item.show()
+                    shortcutsCheatSheetDialogLoader.item.raise()
+                    shortcutsCheatSheetDialogLoader.item.requestActivate()
+                }
+            }
+        }
+
+        onLoaded: {
+            item.show()
+            item.raise()
+            item.requestActivate()
+        }
+    }
 }

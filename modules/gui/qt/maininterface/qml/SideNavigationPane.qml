@@ -292,7 +292,7 @@ T.Pane {
 
                 showText: root.delegateShowText
 
-                onClicked: DialogsProvider.playlistsDialog([], 0)
+                onClicked: DialogsProvider.showNewPlaylist()
 
                 focusPolicy: Qt.StrongFocus
 
