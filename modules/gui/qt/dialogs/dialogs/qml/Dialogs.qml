@@ -608,4 +608,29 @@ Item {
             }
         }
     }
+
+    Loader {
+        id: preferencesWindowLoader
+        active: false
+        source: "qrc:///qt/qml/VLC/Dialogs/PreferencesWindow.qml"
+
+        Connections {
+            target: DialogsProvider
+
+            function onShowPrefsDialog() {
+                preferencesWindowLoader.active = true
+                if (preferencesWindowLoader.item) {
+                    preferencesWindowLoader.item.show()
+                    preferencesWindowLoader.item.raise()
+                    preferencesWindowLoader.item.requestActivate()
+                }
+            }
+        }
+
+        onLoaded: {
+            item.show()
+            item.raise()
+            item.requestActivate()
+        }
+    }
 }

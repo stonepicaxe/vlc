@@ -141,6 +141,8 @@ libqt_plugin_la_SOURCES = \
 	dialogs/podcast/podcast_configuration.hpp \
 	dialogs/preferences/complete_preferences.cpp \
 	dialogs/preferences/complete_preferences.hpp \
+	dialogs/preferences/config_model.cpp \
+	dialogs/preferences/config_model.hpp \
 	dialogs/preferences/expert_model.cpp \
 	dialogs/preferences/expert_model.hpp \
 	dialogs/preferences/expert_view.cpp \
@@ -1045,7 +1047,26 @@ libqml_module_dialogs_a_QML = \
 	dialogs/toolbar/qml/EditorTabButton.qml \
 	dialogs/toolbar/qml/ToolbarEditor.qml \
 	dialogs/toolbar/qml/ToolbarEditorDialog.qml \
-	dialogs/toolbar/qml/ToolbarEditorButtonList.qml
+	dialogs/toolbar/qml/ToolbarEditorButtonList.qml \
+	dialogs/preferences/qml/PreferenceCard.qml \
+	dialogs/preferences/qml/PreferenceToggle.qml \
+	dialogs/preferences/qml/PreferenceCombo.qml \
+	dialogs/preferences/qml/PreferenceSlider.qml \
+	dialogs/preferences/qml/PreferenceInput.qml \
+	dialogs/preferences/qml/GeneralSettings.qml \
+	dialogs/preferences/qml/AudioSettings.qml \
+	dialogs/preferences/qml/VideoSettings.qml \
+	dialogs/preferences/qml/SubtitlesSettings.qml \
+	dialogs/preferences/qml/HotkeysSettings.qml \
+	dialogs/preferences/qml/InterfaceSettings.qml \
+	dialogs/preferences/qml/NetworkSettings.qml \
+	dialogs/preferences/qml/PrivacySettings.qml \
+	dialogs/preferences/qml/PerformanceSettings.qml \
+	dialogs/preferences/qml/InputCodecsSettings.qml \
+	dialogs/preferences/qml/AccountSettings.qml \
+	dialogs/preferences/qml/AdvancedSettings.qml \
+	dialogs/preferences/qml/AboutSettings.qml \
+	dialogs/preferences/qml/PreferencesWindow.qml
 libqml_module_dialogs_a_Singleton_QML =
 libqml_module_dialogs_a_SOURCES = $(QML_MODULE_dialogs_SRC)
 nodist_libqml_module_dialogs_a_SOURCES = dialogs/qmlassets.cpp $(QML_MODULE_dialogs_NODIST_EXTRA)
