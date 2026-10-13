@@ -99,10 +99,10 @@ T.ItemDelegate {
 
     background: Widgets.AnimatedBackground {
         enabled: theme.initialized
-        color: theme.bg.primary
-        border.color: visualFocus ? theme.visualFocus : "transparent"
+        color: (control.highlighted || control.checked) ? VLCStyle.darkBgB1Transparent : theme.bg.primary
+        border.color: (control.highlighted || control.checked) ? VLCStyle.vlcBorderBright : (visualFocus ? theme.visualFocus : "transparent")
 
-        radius: control.radius
+        radius: VLCStyle.control_radius
 
         Widgets.CurrentIndicator {
             anchors {
@@ -111,9 +111,9 @@ T.ItemDelegate {
                 verticalCenter: parent.verticalCenter
             }
             implicitHeight: parent.height / 2
-            visible: control.checked
+            visible: control.checked || control.highlighted
 
-            radius: control.radius / 2
+            radius: VLCStyle.chip_radius
         }
     }
 

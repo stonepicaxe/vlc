@@ -88,9 +88,16 @@ T.Pane {
         }
     }
 
-    background: Widgets.AcrylicBackground {
-        enabled: root.useAcrylic
-        tintColor: theme.bg.primary
+    background: Rectangle {
+        radius: VLCStyle.panel_radius
+        color: VLCStyle.darkBgA3Transparent
+        border.width: VLCStyle.border
+        border.color: VLCStyle.vlcBorderBright
+
+        layer.enabled: true
+        layer.effect: Widgets.FrostedGlassEffect {
+            tint: VLCStyle.darkBgA3Transparent
+        }
     }
 
     contentItem:  Item {
@@ -155,7 +162,7 @@ T.Pane {
                 }
 
                 Navigation.parentItem: root
-                Navigation.downItem: preferenceButton
+                Navigation.downItem: newPlaylistButton
 
                 delegate: SideNavigationDelegate {
                     id: delegate
@@ -259,6 +266,77 @@ T.Pane {
                 }
             }
 
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: VLCStyle.border
+                color: VLCStyle.vlcBorderBright
+                opacity: 0.5
+            }
+
+            SideNavigationDelegate {
+                id: newPlaylistButton
+
+                AccessibleCompat.id: "newPlaylistButton"
+
+                Layout.fillWidth: true
+                Layout.preferredHeight: VLCStyle.buttonHeightNavigationPane
+
+                leftPadding: root.safeAreaLeftMargin + VLCStyle.margin_xsmall
+                rightPadding: root.safeAreaRightMargin
+
+                leftInset: root.safeAreaLeftMargin + implicitLeftInset
+                rightInset: root.safeAreaRightMargin + implicitRightInset
+
+                iconTxt: VLCIcons.playlist
+                text: qsTr("New Playlist")
+
+                showText: root.delegateShowText
+
+                onClicked: DialogsProvider.playlistsDialog([], 0)
+
+                focusPolicy: Qt.StrongFocus
+
+                Navigation.parentItem: root
+                Navigation.upItem: listView
+                Navigation.downItem: openStreamButton
+
+                Keys.priority: Keys.AfterItem
+                Keys.onPressed: (e) => Navigation.defaultKeyAction(e)
+                Keys.onReleased: (e) => Navigation.defaultKeyReleaseAction(e)
+            }
+
+            SideNavigationDelegate {
+                id: openStreamButton
+
+                AccessibleCompat.id: "openStreamButton"
+
+                Layout.fillWidth: true
+                Layout.preferredHeight: VLCStyle.buttonHeightNavigationPane
+
+                leftPadding: root.safeAreaLeftMargin + VLCStyle.margin_xsmall
+                rightPadding: root.safeAreaRightMargin
+
+                leftInset: root.safeAreaLeftMargin + implicitLeftInset
+                rightInset: root.safeAreaRightMargin + implicitRightInset
+
+                iconTxt: VLCIcons.stream
+                text: qsTr("Open Stream")
+
+                showText: root.delegateShowText
+
+                onClicked: DialogsProvider.openNetDialog()
+
+                focusPolicy: Qt.StrongFocus
+
+                Navigation.parentItem: root
+                Navigation.upItem: newPlaylistButton
+                Navigation.downItem: preferenceButton
+
+                Keys.priority: Keys.AfterItem
+                Keys.onPressed: (e) => Navigation.defaultKeyAction(e)
+                Keys.onReleased: (e) => Navigation.defaultKeyReleaseAction(e)
+            }
+
             SideNavigationDelegate {
                 id: preferenceButton
 
@@ -286,7 +364,7 @@ T.Pane {
                 focusPolicy: Qt.StrongFocus
 
                 Navigation.parentItem: root
-                Navigation.upItem: listView
+                Navigation.upItem: openStreamButton
 
                 Keys.priority: Keys.AfterItem
                 Keys.onPressed: (e) => Navigation.defaultKeyAction(e)

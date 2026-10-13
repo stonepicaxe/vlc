@@ -66,9 +66,15 @@ T.ToolBar {
         colorSet: ColorContext.Window
     }
 
-    background:  Widgets.AcrylicBackground {
-        enabled: root.useAcrylic
-        tintColor: theme.bg.primary
+    background: Rectangle {
+        color: VLCStyle.darkBgA3Transparent
+        border.width: VLCStyle.border
+        border.color: VLCStyle.vlcBorderBright
+
+        layer.enabled: true
+        layer.effect: Widgets.FrostedGlassEffect {
+            tint: VLCStyle.darkBgA3Transparent
+        }
     }
 
     contentItem: Item {
@@ -216,6 +222,65 @@ T.ToolBar {
                         ctx: MainCtx
                     }
                 }
+            }
+        }
+
+        Rectangle {
+            id: searchBarPill
+            anchors.centerIn: parent
+            width: Math.min(Math.max(parent.width - navigationButtons.implicitWidth - playqueueButtonsTop.implicitWidth - VLCStyle.margin_large * 2, 0), VLCStyle.dp(340, VLCStyle.scale))
+            height: VLCStyle.dp(32, VLCStyle.scale)
+            visible: width > VLCStyle.dp(160, VLCStyle.scale)
+
+            radius: VLCStyle.pill_radius
+            color: searchMouseArea.containsMouse ? VLCStyle.darkBgB2Transparent : VLCStyle.darkBgB1Transparent
+            border.width: VLCStyle.border
+            border.color: searchMouseArea.containsMouse ? VLCStyle.vlcOrange : VLCStyle.vlcBorderBright
+
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: VLCStyle.margin_normal
+                anchors.rightMargin: VLCStyle.margin_small
+                spacing: VLCStyle.margin_xsmall
+
+                Widgets.IconLabel {
+                    text: VLCIcons.search
+                    color: VLCStyle.darkFgSecondary
+                    font.pixelSize: VLCStyle.icon_normal
+                }
+
+                Text {
+                    Layout.fillWidth: true
+                    text: qsTr("Search media...")
+                    color: VLCStyle.darkFgMuted
+                    font.pixelSize: VLCStyle.fontSize_normal
+                    elide: Text.ElideRight
+                }
+
+                Rectangle {
+                    radius: VLCStyle.chip_radius
+                    color: VLCStyle.darkBgA2Transparent
+                    border.width: VLCStyle.border
+                    border.color: VLCStyle.vlcBorderSubtle
+                    implicitWidth: shortcutBadgeText.implicitWidth + VLCStyle.margin_xsmall * 2
+                    implicitHeight: VLCStyle.dp(20, VLCStyle.scale)
+
+                    Text {
+                        id: shortcutBadgeText
+                        anchors.centerIn: parent
+                        text: "Ctrl+F"
+                        color: VLCStyle.darkFgMuted
+                        font.pixelSize: VLCStyle.fontSize_small
+                    }
+                }
+            }
+
+            MouseArea {
+                id: searchMouseArea
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: MainCtx.search.askShow()
             }
         }
 
