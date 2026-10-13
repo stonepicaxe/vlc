@@ -1,4 +1,4 @@
-name: Build VLC Qt GUI
+name: VLC Multi-OS Build
 
 on:
   push:
@@ -7,10 +7,15 @@ on:
   pull_request:
     branches:
       - '**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    name: Compile Qt Interface
+  linux:
+    name: Linux x86_64 (Qt6)
     runs-on: ubuntu-latest
     container:
       image: registry.videolan.org/vlc-debian-unstable:20260611225331
@@ -36,3 +41,80 @@ jobs:
 
       - name: Compile
         run: make -j$(nproc)
+
+      - name: Upload Linux Qt Plugin
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: vlc-linux-qt-plugin
+          path: modules/gui/qt/.libs/libqt_plugin.so
+          if-no-files-found: ignore
+
+  windows:
+    name: Windows x86_64 (Qt6 MinGW)
+    runs-on: ubuntu-latest
+    container:
+      image: registry.videolan.org/vlc-debian-win64-posix:20260611225331
+      options: --user root
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fix git permissions
+        run: git config --global --add safe.directory '*'
+
+      - name: Resolve Prebuilt Contribs
+        run: |
+          VLC_CONTRIB_SHA="$(extras/ci/get-contrib-sha.sh win64)"
+          VLC_PREBUILT_CONTRIBS_URL="https://artifacts.videolan.org/vlc/win64/vlc-contrib-x86_64-w64-mingw32-${VLC_CONTRIB_SHA}.tar.zst"
+          echo "VLC_CONTRIB_SHA=${VLC_CONTRIB_SHA}" >> $GITHUB_ENV
+          echo "VLC_PREBUILT_CONTRIBS_URL=${VLC_PREBUILT_CONTRIBS_URL}" >> $GITHUB_ENV
+          echo "Using prebuilt contribs at ${VLC_PREBUILT_CONTRIBS_URL}"
+          extras/ci/check-url.sh "$VLC_PREBUILT_CONTRIBS_URL"
+
+      - name: Build Windows VLC
+        run: |
+          extras/package/win32/build.sh -a x86_64 -p
+
+      - name: Upload Windows Qt Plugin
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: vlc-windows-qt-plugin
+          path: win64/modules/gui/qt/.libs/libqt_plugin.dll
+          if-no-files-found: ignore
+
+  macos:
+    name: macOS arm64 (Native)
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          brew install autoconf automake libtool pkg-config bison nasm ninja zstd gnu-tar || true
+          echo "/opt/homebrew/opt/bison/bin" >> $GITHUB_PATH
+          echo "/opt/homebrew/opt/gnu-tar/libexec/gnubin" >> $GITHUB_PATH
+
+      - name: Resolve Prebuilt Contribs
+        run: |
+          VLC_CONTRIB_SHA="$(extras/ci/get-contrib-sha.sh macos)"
+          echo "VLC_FORCE_KERNELVERSION=19" >> $GITHUB_ENV
+          echo "VLC_PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/opt/bison/bin" >> $GITHUB_ENV
+          VLC_PREBUILT_CONTRIBS_URL="https://artifacts.videolan.org/vlc/macos-arm64/vlc-contrib-aarch64-apple-darwin19-${VLC_CONTRIB_SHA}.tar.zst"
+          echo "VLC_PREBUILT_CONTRIBS_URL=${VLC_PREBUILT_CONTRIBS_URL}" >> $GITHUB_ENV
+          echo "Using prebuilt contribs at ${VLC_PREBUILT_CONTRIBS_URL}"
+          extras/ci/check-url.sh "$VLC_PREBUILT_CONTRIBS_URL"
+
+      - name: Build macOS VLC
+        run: |
+          ./extras/package/macosx/build.sh -a aarch64 -j $(sysctl -n hw.ncpu)
+
+      - name: Upload macOS App
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: vlc-macos-app
+          path: VLC.app
+          if-no-files-found: ignore
