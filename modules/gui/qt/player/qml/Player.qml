@@ -1284,9 +1284,10 @@ FocusScope {
 
         anchors {
             bottom: parent.bottom
-            left: parent.left
-            right: parent.right
+            bottomMargin: rootPlayer._controlsUnderVideo ? 0 : VLCStyle.margin_large
+            horizontalCenter: parent.horizontalCenter
         }
+        width: rootPlayer._controlsUnderVideo ? parent.width : Math.min(parent.width - VLCStyle.margin_large * 2, VLCStyle.dp(1100, VLCStyle.scale))
 
         hoverEnabled: true
 
@@ -1294,7 +1295,7 @@ FocusScope {
 
         rightPadding: VLCStyle.applicationHorizontalMargin
         leftPadding: VLCStyle.applicationHorizontalMargin
-        bottomPadding: VLCStyle.applicationVerticalMargin + VLCStyle.margin_xsmall
+        bottomPadding: rootPlayer._controlsUnderVideo ? (VLCStyle.applicationVerticalMargin + VLCStyle.margin_xsmall) : VLCStyle.margin_small
 
         textPosition: (MainCtx.pinVideoControls)
                       ? ControlBar.TimeTextPosition.LeftRightSlider
@@ -1311,6 +1312,8 @@ FocusScope {
 
         Navigation.parentItem: rootPlayer
         Navigation.upItem: {
+            if (subtitleDrawer.visible)
+                return subtitleDrawer
             if (playlistVisibility.isPlaylistVisible)
                 return playlistpopup
             if (Player.isInteractive)
@@ -1338,23 +1341,44 @@ FocusScope {
 
             visible: !MainCtx.hasEmbededVideo || MainCtx.pinVideoControls || !rootPlayer.displayFadeRectangles
 
-            opacity: {
-                if (MainCtx.hasEmbededVideo && !MainCtx.pinVideoControls && !rootPlayer.displayFadeRectangles) {
-                    return 0.6
-                } else if ((Window.visibility === Window.FullScreen) && MainCtx.hasEmbededVideo) {
-                    return MainCtx.pinOpacity
-                } else if (AcrylicController.enabled || !MainCtx.hasEmbededVideo) {
-                    return 0.7
-                } else {
-                    return 1.0
-                }
-            }
+            radius: rootPlayer._controlsUnderVideo ? 0 : VLCStyle.panel_radius
 
-            color: windowTheme.bg.primary
+            color: rootPlayer._controlsUnderVideo ? windowTheme.bg.primary : VLCStyle.darkBgA3Transparent
+
+            border.width: rootPlayer._controlsUnderVideo ? 0 : VLCStyle.border
+            border.color: VLCStyle.vlcBorderBright
+
+            layer.enabled: !rootPlayer._controlsUnderVideo
+            layer.effect: Widgets.FrostedGlassEffect {
+                tint: VLCStyle.darkBgA3Transparent
+            }
         }
 
         FadeControllerStateGroup {
             target: controlBar
+        }
+    }
+
+    function toggleSubtitleDrawer() {
+        subtitleDrawer.visible = !subtitleDrawer.visible
+        rootPlayer.lockUnlockAutoHide(subtitleDrawer.visible)
+    }
+
+    SubtitleDrawer {
+        id: subtitleDrawer
+
+        anchors {
+            bottom: controlBar.top
+            bottomMargin: VLCStyle.margin_normal
+            horizontalCenter: controlBar.horizontalCenter
+        }
+
+        visible: false
+        z: controlBar.z + 1
+
+        onCloseRequested: {
+            visible = false
+            rootPlayer.lockUnlockAutoHide(false)
         }
     }
 

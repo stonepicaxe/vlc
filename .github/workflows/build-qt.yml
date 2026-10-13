@@ -14,12 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: registry.videolan.org/vlc-debian-unstable:20260611225331
+      options: --user root
     steps:
-      - name: Configure git safe directory
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Fix git permissions
+        run: git config --global --add safe.directory '*'
 
       - name: Bootstrap
         run: ./bootstrap

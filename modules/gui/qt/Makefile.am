@@ -1187,7 +1187,8 @@ libqml_module_player_a_QML = \
 	player/qml/TracksListPage.qml \
 	player/qml/ControlLayout.qml \
 	player/qml/ControlRepeater.qml \
-	player/qml/NavigationBox.qml
+	player/qml/NavigationBox.qml \
+	player/qml/drawers/SubtitleDrawer.qml
 
 libqml_module_player_a_Singleton_QML = \
 	player/qml/PlayerControlbarControls.qml
