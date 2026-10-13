@@ -67,6 +67,25 @@ QtObject {
     readonly property int border: MainCtx.dp(1, scale)
     readonly property int focus_border: border
 
+    // Figma Redesign Radii & Geometry
+    readonly property real panel_radius: MainCtx.dp(16, scale)
+    readonly property real card_radius: MainCtx.dp(12, scale)
+    readonly property real control_radius: MainCtx.dp(8, scale)
+    readonly property real chip_radius: MainCtx.dp(6, scale)
+    readonly property real pill_radius: MainCtx.dp(999, scale)
+    readonly property real blur_radius: MainCtx.dp(25, scale)
+
+    // Performance Fallback Flag
+    property bool acrylicBlurEnabled: true
+
+    // Translucent surfaces & design colors
+    readonly property color darkBgB1Transparent: Qt.rgba(14 / 255.0, 14 / 255.0, 14 / 255.0, 0.95)
+    readonly property color darkBgA3Transparent: Qt.rgba(25 / 255.0, 25 / 255.0, 25 / 255.0, 0.95)
+    readonly property color vlcOrange: "#D37918"
+    readonly property color vlcOrangeDim: "#AB6314"
+    readonly property color vlcBorderBright: "#373737"
+    readonly property color vlcBorderDim: "#222222"
+
     readonly property int fontSize_xsmall: fontMetrics_xsmall.font.pixelSize
     readonly property int fontSize_small:  fontMetrics_small.font.pixelSize
     readonly property int fontSize_normal: fontMetrics_normal.font.pixelSize

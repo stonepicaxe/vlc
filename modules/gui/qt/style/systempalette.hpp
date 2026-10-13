@@ -135,6 +135,26 @@ public:
 
     COLOR_DEFINITION(red500, "#FF0000");
 
+    // Figma Redesign tokens
+    COLOR_DEFINITION(vlcOrange, "#D37918");
+    COLOR_DEFINITION(vlcOrangeDim, "#AB6314");
+    COLOR_DEFINITION(vlcBgB2, "#090909");
+    COLOR_DEFINITION(vlcBgB1, "#0E0E0E");
+    COLOR_DEFINITION(vlcBgA5, "#151515");
+    COLOR_DEFINITION(vlcBgA4, "#191919");
+    COLOR_DEFINITION(vlcBgA3, "#1B1B1B");
+    COLOR_DEFINITION(vlcBgA2, "#1F1F1F");
+    COLOR_DEFINITION(vlcBgA1, "#222222");
+    COLOR_DEFINITION(vlcFg1, "#EAEAEA");
+    COLOR_DEFINITION(vlcFg2, "#C6C6C6");
+    COLOR_DEFINITION(vlcFgA1, "#969696");
+    COLOR_DEFINITION(vlcFgA2, "#8F8F8F");
+    COLOR_DEFINITION(vlcFgA3, "#6B6B6B");
+    COLOR_DEFINITION(vlcDividerBright, "#373737");
+    COLOR_DEFINITION(vlcDividerDim, "#222222");
+    COLOR_DEFINITION(vlcAccentGlowBright, "#371F06");
+    COLOR_DEFINITION(vlcAccentGlowDark, "#1A1611");
+
 public:
     SystemPalette(QObject* parent = nullptr);
 

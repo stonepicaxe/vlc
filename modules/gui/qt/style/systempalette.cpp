@@ -693,45 +693,45 @@ void SystemPalette::makeDarkPalette()
 
     {
         C::ColorSet CS = C::View;
-        setColor(CS, C::Bg, C::Primary, C::Normal, darkGrey300 );
-        setColor(CS, C::Bg, C::Secondary, C::Normal, Qt::black );
+        setColor(CS, C::Bg, C::Primary, C::Normal, vlcBgB1 );
+        setColor(CS, C::Bg, C::Secondary, C::Normal, vlcBgB2 );
 
-        setColor(CS, C::Fg, C::Primary, C::Normal, Qt::white );
-        setColor(CS, C::Fg, C::Primary, C::Disabled, setColorAlpha(Qt::white, 0.3) );
+        setColor(CS, C::Fg, C::Primary, C::Normal, vlcFg1 );
+        setColor(CS, C::Fg, C::Primary, C::Disabled, setColorAlpha(vlcFg1, 0.3) );
 
-        setColor(CS, C::Fg, C::Secondary, C::Normal, setColorAlpha(Qt::white, 0.6));
+        setColor(CS, C::Fg, C::Secondary, C::Normal, vlcFg2);
 
         setColor(CS, C::Bg, C::Negative, C::Normal, QColor(Qt::darkRed));
         setColor(CS, C::Fg, C::Negative, C::Normal, Qt::red);
 
-        setColor(CS, C::Bg, C::Neutral, C::Normal, QColor(Qt::darkYellow));
-        setColor(CS, C::Fg, C::Neutral, C::Normal, orange500);
+        setColor(CS, C::Bg, C::Neutral, C::Normal, vlcAccentGlowBright);
+        setColor(CS, C::Fg, C::Neutral, C::Normal, vlcOrange);
 
         setColor(CS, C::Bg, C::Positive, C::Normal, QColor(Qt::darkGreen));
         setColor(CS, C::Fg, C::Positive, C::Normal, Qt::green);
 
         setColor(CS, C::Decoration, C::VisualFocus, C::Normal, setColorAlpha(Qt::white, 0.0) );
-        setColor(CS, C::Decoration, C::VisualFocus, C::Focused, Qt::white );
+        setColor(CS, C::Decoration, C::VisualFocus, C::Focused, vlcOrange );
 
-        setColor(CS, C::Decoration, C::Border, C::Normal, setColorAlpha(Qt::white, 0.4) );
-        setColor(CS, C::Decoration, C::Border, C::Focused, setColorAlpha(Qt::white, 0.7) );
-        setColor(CS, C::Decoration, C::Border, C::Hovered, setColorAlpha(Qt::white, 0.7) );
+        setColor(CS, C::Decoration, C::Border, C::Normal, vlcDividerBright );
+        setColor(CS, C::Decoration, C::Border, C::Focused, vlcOrange );
+        setColor(CS, C::Decoration, C::Border, C::Hovered, setColorAlpha(vlcDividerBright, 0.8) );
         setColor(CS, C::Decoration, C::Border, C::Disabled, setColorAlpha(Qt::white, 0.0) );
 
-        setColor(CS, C::Decoration, C::Shadow, C::Normal, setColorAlpha(Qt::black, 0.22));
+        setColor(CS, C::Decoration, C::Shadow, C::Normal, setColorAlpha(Qt::black, 0.46));
 
-        setColor(CS, C::Decoration, C::Separator, C::Normal, darkGrey800);
+        setColor(CS, C::Decoration, C::Separator, C::Normal, vlcDividerDim);
 
-        setColor(CS, C::Decoration, C::Accent, C::Normal, orange500);
-        setColor(CS, C::Fg, C::Link, C::Normal, orange500);
+        setColor(CS, C::Decoration, C::Accent, C::Normal, vlcOrange);
+        setColor(CS, C::Fg, C::Link, C::Normal, vlcOrange);
     }
 
     //window banner & miniplayer
     {
         C::ColorSet CS = C::Window;
-        setColor(CS, C::Bg, C::Primary, C::Normal, Qt::black); //FIXME
-        setColor(CS, C::Bg, C::Secondary, C::Normal, Qt::black);
-        setColor(CS, C::Decoration, C::Border, C::Normal, darkGrey800); //FIXME not a predef
+        setColor(CS, C::Bg, C::Primary, C::Normal, vlcBgB1);
+        setColor(CS, C::Bg, C::Secondary, C::Normal, vlcBgB2);
+        setColor(CS, C::Decoration, C::Border, C::Normal, vlcDividerBright);
     }
 
     //badges

@@ -19,16 +19,18 @@
 import QtQuick
 
 import VLC.Widgets as Widgets
+import VLC.Style
 
 // This item can be used as a layer effect.
 // Make sure that the sampler name is set to "source" (default).
 Widgets.DualKawaseBlur {
     id: root
 
-    radius: 3
+    mode: VLCStyle.acrylicBlurEnabled ? Widgets.DualKawaseBlur.Mode.FourPass : Widgets.DualKawaseBlur.Mode.TwoPass
+    radius: VLCStyle.acrylicBlurEnabled ? 3 : 0
 
-    postprocess: true
-    tintStrength: Qt.colorEqual(tint, "transparent") ? 0.0 : 0.7
-    noiseStrength: 0.02
-    exclusionStrength: 0.09
+    postprocess: VLCStyle.acrylicBlurEnabled
+    tintStrength: Qt.colorEqual(tint, "transparent") ? 0.0 : (VLCStyle.acrylicBlurEnabled ? 0.7 : 0.95)
+    noiseStrength: VLCStyle.acrylicBlurEnabled ? 0.02 : 0.0
+    exclusionStrength: VLCStyle.acrylicBlurEnabled ? 0.09 : 0.0
 }
