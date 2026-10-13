@@ -44,12 +44,19 @@ jobs:
       - name: Compile
         run: make -j$(nproc)
 
-      - name: Upload Linux Qt Plugin
+      - name: Package Linux Installation
+        run: |
+          make install DESTDIR=$(pwd)/vlc-linux-install
+          tar -czf vlc-linux-x86_64.tar.gz -C vlc-linux-install .
+
+      - name: Upload Linux Package
         uses: actions/upload-artifact@v4
         if: success()
         with:
-          name: vlc-linux-qt-plugin
-          path: modules/gui/qt/.libs/libqt_plugin.so
+          name: vlc-linux-package
+          path: |
+            vlc-linux-x86_64.tar.gz
+            modules/gui/qt/.libs/libqt_plugin.so
           if-no-files-found: ignore
 
   windows:
@@ -85,16 +92,19 @@ jobs:
             exit 1
           fi
 
-      - name: Build Windows VLC
+      - name: Build Windows VLC and Installer
         run: |
-          extras/package/win32/build.sh -a x86_64 -p
+          extras/package/win32/build.sh -a x86_64 -p -i r
 
-      - name: Upload Windows Qt Plugin
+      - name: Upload Windows Installer
         uses: actions/upload-artifact@v4
         if: success()
         with:
-          name: vlc-windows-qt-plugin
-          path: win64/modules/gui/qt/.libs/libqt_plugin.dll
+          name: vlc-windows-installer
+          path: |
+            win64/vlc-*.exe
+            win64/vlc-*.zip
+            win64/modules/gui/qt/.libs/libqt_plugin.dll
           if-no-files-found: ignore
 
   macos:
@@ -146,14 +156,16 @@ jobs:
             exit 1
           fi
 
-      - name: Build macOS VLC
+      - name: Build macOS VLC and DMG Installer
         run: |
-          ./extras/package/macosx/build.sh -a aarch64 -j $(sysctl -n hw.ncpu)
+          ./extras/package/macosx/build.sh -a aarch64 -p -j $(sysctl -n hw.ncpu)
 
-      - name: Upload macOS App
+      - name: Upload macOS Installer
         uses: actions/upload-artifact@v4
         if: success()
         with:
-          name: vlc-macos-app
-          path: VLC.app
+          name: vlc-macos-installer
+          path: |
+            vlc-*.dmg
+            VLC.app
           if-no-files-found: ignore
