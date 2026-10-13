@@ -109,19 +109,17 @@ jobs:
 
   macos:
     name: ${{ matrix.name }}
-    runs-on: ${{ matrix.runner }}
+    runs-on: macos-14
     strategy:
       matrix:
         include:
           - name: macOS Intel x86_64
-            runner: macos-13
             arch: x86_64
             shortarch: intel64
             triplet_arch: x86_64
             contrib_group: macos-x86_64
             artifact_name: vlc-macos-intel-installer
           - name: macOS Apple Silicon arm64
-            runner: macos-14
             arch: aarch64
             shortarch: arm64
             triplet_arch: aarch64
