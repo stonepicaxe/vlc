@@ -108,8 +108,25 @@ jobs:
           if-no-files-found: ignore
 
   macos:
-    name: macOS arm64 (Native)
-    runs-on: macos-14
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        include:
+          - name: macOS Intel x86_64
+            runner: macos-13
+            arch: x86_64
+            shortarch: intel64
+            triplet_arch: x86_64
+            contrib_group: macos-x86_64
+            artifact_name: vlc-macos-intel-installer
+          - name: macOS Apple Silicon arm64
+            runner: macos-14
+            arch: aarch64
+            shortarch: arm64
+            triplet_arch: aarch64
+            contrib_group: macos-arm64
+            artifact_name: vlc-macos-arm64-installer
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -119,8 +136,10 @@ jobs:
       - name: Install dependencies
         run: |
           brew install autoconf automake libtool pkg-config bison nasm ninja zstd gnu-tar || true
-          echo "/opt/homebrew/opt/bison/bin" >> $GITHUB_PATH
-          echo "/opt/homebrew/opt/gnu-tar/libexec/gnubin" >> $GITHUB_PATH
+          BREW_PREFIX="$(brew --prefix)"
+          echo "$BREW_PREFIX/bin" >> $GITHUB_PATH
+          echo "$BREW_PREFIX/opt/bison/bin" >> $GITHUB_PATH
+          echo "$BREW_PREFIX/opt/gnu-tar/libexec/gnubin" >> $GITHUB_PATH
 
       - name: Setup SDK compatibility
         run: |
@@ -139,10 +158,11 @@ jobs:
         run: |
           export VLC_FORCE_KERNELVERSION=19
           echo "VLC_FORCE_KERNELVERSION=19" >> $GITHUB_ENV
-          echo "VLC_PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/opt/bison/bin" >> $GITHUB_ENV
+          BREW_PREFIX="$(brew --prefix)"
+          echo "VLC_PATH=$BREW_PREFIX/bin:$BREW_PREFIX/sbin:$BREW_PREFIX/opt/bison/bin" >> $GITHUB_ENV
           FOUND_URL=""
           for sha in $(git rev-list -n 20 HEAD -- extras/tools contrib extras/ci extras/package/macosx); do
-            url="https://artifacts.videolan.org/vlc/macos-arm64/vlc-contrib-aarch64-apple-darwin19-${sha}.tar.zst"
+            url="https://artifacts.videolan.org/vlc/${{ matrix.contrib_group }}/vlc-contrib-${{ matrix.triplet_arch }}-apple-darwin19-${sha}.tar.zst"
             if extras/ci/check-url.sh "$url" 2>/dev/null; then
               FOUND_URL="$url"
               echo "VLC_CONTRIB_SHA=${sha}" >> $GITHUB_ENV
@@ -158,13 +178,13 @@ jobs:
 
       - name: Build macOS VLC and DMG Installer
         run: |
-          ./extras/package/macosx/build.sh -a aarch64 -p -j $(sysctl -n hw.ncpu)
+          ./extras/package/macosx/build.sh -a ${{ matrix.arch }} -p -j $(sysctl -n hw.ncpu)
 
       - name: Upload macOS Installer
         uses: actions/upload-artifact@v4
         if: success()
         with:
-          name: vlc-macos-installer
+          name: ${{ matrix.artifact_name }}
           path: |
             vlc-*.dmg
             VLC.app
